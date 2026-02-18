@@ -103,7 +103,7 @@ const Shop = () => {
                                         <p className="product-card-category">{product.category}</p>
                                     )}
                                     <h3 className="product-card-name">{product.name}</h3>
-                                    <p className="product-card-price">${Number(product.price).toFixed(2)}</p>
+                                    <p className="product-card-price">{Number(product.price).toFixed(2)} MAD</p>
                                     <button
                                         className={`product-card-btn ${addedId === product.id ? 'added' : ''}`}
                                         onClick={(e) => handleAddToCart(product, e)}

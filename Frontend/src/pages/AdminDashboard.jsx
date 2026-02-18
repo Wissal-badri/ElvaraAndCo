@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiDressLight, PiShoppingCartLight, PiUsersThreeLight, PiCurrencyDollarLight, PiPackageLight, PiSignOutLight, PiPlusLight, PiPencilSimpleLineLight, PiTrashLight, PiXLight, PiCheckLight } from "react-icons/pi";
+import { PiDressLight, PiShoppingCartLight, PiUsersThreeLight, PiCurrencyDollarLight, PiPackageLight, PiSignOutLight, PiPlusLight, PiPencilSimple, PiTrash, PiXLight, PiCheckLight } from "react-icons/pi";
 import { IoDiamondOutline } from "react-icons/io5";
 import './AdminDashboard.css';
 
@@ -17,6 +17,9 @@ const AdminDashboard = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [editProduct, setEditProduct] = useState(null);
+
+    // Form States
     const [form, setForm] = useState({ name: '', description: '', price: '', category: '', stock: '' });
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [imageFile, setImageFile] = useState(null);
@@ -24,7 +27,7 @@ const AdminDashboard = () => {
     const [formError, setFormError] = useState('');
     const [saving, setSaving] = useState(false);
 
-    // ── Guard: wait for auth to load, then check admin role ──
+    // ── Guard ──
     useEffect(() => {
         if (authLoading) return;
         if (!user || user.role !== 'admin') {
@@ -157,21 +160,11 @@ const AdminDashboard = () => {
         revenue: orders.reduce((sum, o) => sum + Number(o.totalAmount || 0), 0),
     };
 
-    // Show loading spinner while auth resolves
-    if (authLoading) {
-        return (
-            <div className="admin-page" style={{ alignItems: 'center', justifyContent: 'center' }}>
-                <p style={{ color: '#888' }}>Loading...</p>
-            </div>
-        );
-    }
-
-    // Don't render anything if not admin (redirect is happening)
+    if (authLoading) return <div className="admin-page"><p style={{ color: '#888', margin: 'auto' }}>Loading...</p></div>;
     if (!user || user.role !== 'admin') return null;
 
     return (
         <div className="admin-page">
-            {/* Sidebar */}
             <aside className="admin-sidebar">
                 <div className="sidebar-brand">ELVARA & CO.</div>
                 <nav className="sidebar-nav">
@@ -186,25 +179,23 @@ const AdminDashboard = () => {
                         </button>
                     ))}
                 </nav>
-                <button className="sidebar-logout" onClick={() => { logout(); navigate('/login'); }}>
+                <button className="sidebar-logout" onClick={() => { logout(); navigate('/'); }}>
                     <PiSignOutLight size={20} /> Logout
                 </button>
             </aside>
 
-            {/* Main Content */}
             <main className="admin-main">
                 <header className="admin-header">
                     <h1>{activeTab}</h1>
                     <span className="admin-welcome">Welcome, {user.username}</span>
                 </header>
 
-                {/* Stats Cards */}
                 <div className="stats-grid">
                     {[
                         { label: 'Total Products', value: stats.totalProducts, icon: <PiDressLight /> },
                         { label: 'Total Orders', value: stats.totalOrders, icon: <PiPackageLight /> },
                         { label: 'Pending Orders', value: stats.pendingOrders, icon: <IoDiamondOutline /> },
-                        { label: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, icon: <PiCurrencyDollarLight /> },
+                        { label: 'Total Revenue', value: `${stats.revenue.toFixed(2)} MAD`, icon: <PiCurrencyDollarLight /> },
                     ].map((s, i) => (
                         <motion.div
                             key={s.label}
@@ -222,7 +213,6 @@ const AdminDashboard = () => {
                     ))}
                 </div>
 
-                {/* Products Tab */}
                 {activeTab === 'Products' && (
                     <div className="tab-content">
                         <div className="tab-header">
@@ -263,7 +253,7 @@ const AdminDashboard = () => {
                                                 </td>
                                                 <td className="product-name-cell">{p.name}</td>
                                                 <td>{p.category || '—'}</td>
-                                                <td className="price-cell">${Number(p.price).toFixed(2)}</td>
+                                                <td className="price-cell">{Number(p.price).toFixed(2)} MAD</td>
                                                 <td>
                                                     <span className={`stock-badge ${p.stock > 0 ? 'in-stock' : 'no-stock'}`}>
                                                         {p.stock}
@@ -272,10 +262,10 @@ const AdminDashboard = () => {
                                                 <td>
                                                     <div className="action-btns">
                                                         <button className="action-btn edit" onClick={() => openEditModal(p)} title="Edit">
-                                                            <PiPencilSimpleLineLight size={18} />
+                                                            <PiPencilSimple size={18} />
                                                         </button>
                                                         <button className="action-btn delete" onClick={() => handleDeleteProduct(p.id)} title="Delete">
-                                                            <PiTrashLight size={18} />
+                                                            <PiTrash size={18} />
                                                         </button>
                                                     </div>
                                                 </td>
@@ -288,7 +278,6 @@ const AdminDashboard = () => {
                     </div>
                 )}
 
-                {/* Orders Tab */}
                 {activeTab === 'Orders' && (
                     <div className="tab-content">
                         <div className="tab-header">
@@ -323,7 +312,7 @@ const AdminDashboard = () => {
                                                 <td>{o.customerName}</td>
                                                 <td>{o.customerPhone}</td>
                                                 <td style={{ maxWidth: '150px', fontSize: '0.8rem', color: '#888' }}>{o.shippingAddress}</td>
-                                                <td className="price-cell">${Number(o.totalAmount).toFixed(2)}</td>
+                                                <td className="price-cell">{Number(o.totalAmount).toFixed(2)} MAD</td>
                                                 <td>
                                                     <span className={`status-badge status-${o.status}`}>{o.status}</span>
                                                 </td>
@@ -349,7 +338,6 @@ const AdminDashboard = () => {
                 )}
             </main>
 
-            {/* Add / Edit Product Modal */}
             <AnimatePresence>
                 {showModal && (
                     <motion.div
@@ -392,7 +380,7 @@ const AdminDashboard = () => {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label>Price ($) *</label>
+                                        <label>Price (MAD) *</label>
                                         <input
                                             name="price"
                                             type="number"
@@ -414,6 +402,7 @@ const AdminDashboard = () => {
                                             placeholder="0"
                                         />
                                     </div>
+
                                     <div className="form-group full-width">
                                         <label>Sizes Available</label>
                                         <div className="sizes-grid">
@@ -430,6 +419,7 @@ const AdminDashboard = () => {
                                             ))}
                                         </div>
                                     </div>
+
                                     <div className="form-group full-width">
                                         <label>Product Image (File Upload)</label>
                                         <input
@@ -444,6 +434,7 @@ const AdminDashboard = () => {
                                             </div>
                                         )}
                                     </div>
+
                                     <div className="form-group full-width">
                                         <label>Description</label>
                                         <textarea

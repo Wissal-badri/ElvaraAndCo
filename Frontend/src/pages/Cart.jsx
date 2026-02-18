@@ -36,7 +36,7 @@ const Cart = () => {
                         <AnimatePresence>
                             {cart.map((item) => (
                                 <motion.div
-                                    key={item.id}
+                                    key={item.cartItemId}
                                     className="cart-item"
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -52,19 +52,20 @@ const Cart = () => {
                                     </div>
                                     <div className="cart-item-info">
                                         <h3>{item.name}</h3>
-                                        <p className="item-price">${Number(item.price).toFixed(2)}</p>
+                                        <p style={{ fontSize: '0.85rem', color: '#888', marginBottom: '4px' }}>Size: {item.size || 'N/A'}</p>
+                                        <p className="item-price">{Number(item.price).toFixed(2)} MAD</p>
                                     </div>
                                     <div className="cart-item-controls">
-                                        <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                                        <button onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}>
                                             <FaMinus />
                                         </button>
                                         <span>{item.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                                        <button onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}>
                                             <FaPlus />
                                         </button>
                                     </div>
-                                    <p className="item-subtotal">${(item.price * item.quantity).toFixed(2)}</p>
-                                    <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
+                                    <p className="item-subtotal">{(item.price * item.quantity).toFixed(2)} MAD</p>
+                                    <button className="remove-btn" onClick={() => removeFromCart(item.cartItemId)}>
                                         <FaTrash />
                                     </button>
                                 </motion.div>
@@ -77,7 +78,7 @@ const Cart = () => {
                         <h2>Order Summary</h2>
                         <div className="summary-row">
                             <span>Subtotal</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>{total.toFixed(2)} MAD</span>
                         </div>
                         <div className="summary-row">
                             <span>Shipping</span>
@@ -85,7 +86,7 @@ const Cart = () => {
                         </div>
                         <div className="summary-row total-row">
                             <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>{total.toFixed(2)} MAD</span>
                         </div>
                         <button className="btn-primary checkout-btn" onClick={() => navigate('/checkout')}>
                             Proceed to Checkout

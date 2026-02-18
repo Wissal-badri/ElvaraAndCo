@@ -44,7 +44,7 @@ const Checkout = () => {
 
         setLoading(true);
         try {
-            const items = cart.map((item) => ({ productId: item.id, quantity: item.quantity }));
+            const items = cart.map((item) => ({ productId: item.id, quantity: item.quantity, size: item.size }));
             await api.post('/orders', { ...form, items });
             clearCart();
             setSuccess(true);
@@ -140,12 +140,12 @@ const Checkout = () => {
                         {cart.map((item) => (
                             <div key={item.id} className="checkout-item">
                                 <span>{item.name} × {item.quantity}</span>
-                                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                <span>{(item.price * item.quantity).toFixed(2)} MAD</span>
                             </div>
                         ))}
                         <div className="checkout-total">
                             <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>{total.toFixed(2)} MAD</span>
                         </div>
                     </motion.div>
                 </div>

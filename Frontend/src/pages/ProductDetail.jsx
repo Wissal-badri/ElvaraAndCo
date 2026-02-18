@@ -13,6 +13,8 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [added, setAdded] = useState(false);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         api.get(`/products/${id}`)
@@ -22,8 +24,13 @@ const ProductDetail = () => {
     }, [id]);
 
     const handleAddToCart = () => {
-        addToCart(product);
+        if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+            setError('Please select a size.');
+            return;
+        }
+        addToCart({ ...product, selectedSize });
         setAdded(true);
+        setError('');
         setTimeout(() => setAdded(false), 2000);
     };
 
@@ -70,10 +77,29 @@ const ProductDetail = () => {
                             <p className="product-category">{product.category}</p>
                         )}
                         <h1 className="product-name">{product.name}</h1>
-                        <p className="product-price">${Number(product.price).toFixed(2)}</p>
+                        <p className="product-price">{Number(product.price).toFixed(2)} MAD</p>
 
                         {product.description && (
                             <p className="product-description">{product.description}</p>
+                        )}
+
+                        {/* Size Selector */}
+                        {product.sizes && product.sizes.length > 0 && (
+                            <div className="product-detail-sizes">
+                                <p>Select Size:</p>
+                                <div className="size-options">
+                                    {product.sizes.map(size => (
+                                        <button
+                                            key={size}
+                                            className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                                            onClick={() => { setSelectedSize(size); setError(''); }}
+                                        >
+                                            {size}
+                                        </button>
+                                    ))}
+                                </div>
+                                {error && <p className="size-error" style={{ color: '#e05c5c', marginTop: '10px' }}>{error}</p>}
+                            </div>
                         )}
 
                         <div className="product-stock">

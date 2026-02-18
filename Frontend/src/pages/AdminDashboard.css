@@ -267,19 +267,31 @@
 .action-btn {
     background: none;
     border: 1px solid var(--color-charcoal-grey);
-    color: #888;
     padding: 8px 10px;
     cursor: pointer;
     transition: all 0.2s;
+    border-radius: 4px;
+}
+
+.action-btn.edit {
+    color: var(--color-royal-gold);
+    border-color: rgba(201, 166, 70, 0.4);
 }
 
 .action-btn.edit:hover {
-    color: var(--color-royal-gold);
+    background: var(--color-royal-gold);
+    color: #000;
     border-color: var(--color-royal-gold);
 }
 
-.action-btn.delete:hover {
+.action-btn.delete {
     color: #e05c5c;
+    border-color: rgba(224, 92, 92, 0.4);
+}
+
+.action-btn.delete:hover {
+    background: #e05c5c;
+    color: white;
     border-color: #e05c5c;
 }
 

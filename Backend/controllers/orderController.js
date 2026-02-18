@@ -9,12 +9,12 @@ const createOrder = async (req, res) => {
             return res.status(400).json({ message: 'All fields and at least one item are required.' });
 
         // Phone validation
-        const phoneRegex = /^[0-9]{9,15}$/;
+        const phoneRegex = /^[0-9\s+\-()]{9,15}$/;
         if (!phoneRegex.test(customerPhone.replace(/\s/g, '')))
             return res.status(400).json({ message: 'Invalid phone number format.' });
 
         let totalAmount = 0;
-        const orderItems = [];
+        const orderItemsCtx = [];
 
         for (const item of items) {
             const product = await Product.findByPk(item.productId);
@@ -23,17 +23,23 @@ const createOrder = async (req, res) => {
                 return res.status(400).json({ message: `Insufficient stock for ${product.name}.` });
 
             totalAmount += product.price * item.quantity;
-            orderItems.push({ product, quantity: item.quantity, priceAtPurchase: product.price });
+            orderItemsCtx.push({
+                product,
+                quantity: item.quantity,
+                priceAtPurchase: product.price,
+                size: item.size || null // Capture size
+            });
         }
 
-        const order = await Order.create({ customerName, customerPhone, shippingAddress, totalAmount });
+        const order = await Order.create({ customerName, customerPhone, shippingAddress, totalAmount: totalAmount });
 
-        for (const oi of orderItems) {
+        for (const oi of orderItemsCtx) {
             await OrderItem.create({
                 OrderId: order.id,
                 ProductId: oi.product.id,
                 quantity: oi.quantity,
                 priceAtPurchase: oi.priceAtPurchase,
+                size: oi.size, // Save size
             });
             // Decrement stock
             await oi.product.update({ stock: oi.product.stock - oi.quantity });
@@ -50,7 +56,7 @@ const createOrder = async (req, res) => {
 const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.findAll({
-            include: [{ model: Product, through: { attributes: ['quantity', 'priceAtPurchase'] } }],
+            include: [{ model: Product, through: { attributes: ['quantity', 'priceAtPurchase', 'size'] } }],
             order: [['createdAt', 'DESC']],
         });
         res.json(orders);

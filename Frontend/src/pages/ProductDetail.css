@@ -92,6 +92,53 @@
     cursor: not-allowed;
 }
 
+/* Size Selector Styles */
+.product-detail-sizes {
+    margin: 10px 0;
+}
+
+.product-detail-sizes p {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.size-options {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.size-btn {
+    padding: 10px 20px;
+    background: #111;
+    border: 1px solid var(--color-charcoal-grey);
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 48px;
+    text-align: center;
+    font-family: var(--font-body);
+}
+
+.size-btn:hover {
+    border-color: var(--color-royal-gold);
+}
+
+.size-btn.active {
+    background: var(--color-royal-gold);
+    color: var(--color-royal-black);
+    border-color: var(--color-royal-gold);
+    font-weight: 600;
+}
+
+.size-error {
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
 @media (max-width: 900px) {
     .product-detail-layout {
         grid-template-columns: 1fr;
