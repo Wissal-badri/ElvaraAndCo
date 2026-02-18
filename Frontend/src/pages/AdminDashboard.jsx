@@ -3,28 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaBox, FaShoppingCart, FaTimes, FaCheck } from 'react-icons/fa';
+import { PiDressLight, PiShoppingCartLight, PiUsersThreeLight, PiCurrencyDollarLight, PiPackageLight, PiSignOutLight, PiPlusLight, PiPencilSimpleLineLight, PiTrashLight, PiXLight, PiCheckLight } from "react-icons/pi";
+import { IoDiamondOutline } from "react-icons/io5";
 import './AdminDashboard.css';
 
 const TABS = ['Products', 'Orders'];
 
 const AdminDashboard = () => {
-    const { user, logout } = useAuth();
+    const { user, logout, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('Products');
     const [products, setProducts] = useState([]);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
-    const [editProduct, setEditProduct] = useState(null);
-    const [form, setForm] = useState({ name: '', description: '', price: '', category: '', stock: '', image: '' });
+    const [form, setForm] = useState({ name: '', description: '', price: '', category: '', stock: '' });
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
     const [formError, setFormError] = useState('');
     const [saving, setSaving] = useState(false);
 
+    // ── Guard: wait for auth to load, then check admin role ──
     useEffect(() => {
-        if (!user) { navigate('/login'); return; }
+        if (authLoading) return;
+        if (!user || user.role !== 'admin') {
+            navigate('/login');
+            return;
+        }
         fetchData();
-    }, [user]);
+    }, [user, authLoading]);
 
     const fetchData = async () => {
         setLoading(true);
@@ -36,7 +44,7 @@ const AdminDashboard = () => {
             setProducts(pRes.data);
             setOrders(oRes.data);
         } catch (err) {
-            console.error(err);
+            console.error('Failed to fetch data:', err);
         } finally {
             setLoading(false);
         }
@@ -44,7 +52,10 @@ const AdminDashboard = () => {
 
     const openAddModal = () => {
         setEditProduct(null);
-        setForm({ name: '', description: '', price: '', category: '', stock: '', image: '' });
+        setForm({ name: '', description: '', price: '', category: '', stock: '' });
+        setSelectedSizes([]);
+        setImageFile(null);
+        setImagePreview('');
         setFormError('');
         setShowModal(true);
     };
@@ -57,8 +68,10 @@ const AdminDashboard = () => {
             price: product.price,
             category: product.category || '',
             stock: product.stock,
-            image: product.image || '',
         });
+        setSelectedSizes(product.sizes || []);
+        setImageFile(null);
+        setImagePreview(product.image || '');
         setFormError('');
         setShowModal(true);
     };
@@ -68,18 +81,49 @@ const AdminDashboard = () => {
         setFormError('');
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
+
+    const toggleSize = (size) => {
+        setSelectedSizes(prev =>
+            prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
+        );
+    };
+
     const handleSaveProduct = async (e) => {
         e.preventDefault();
-        if (!form.name || !form.price) { setFormError('Name and price are required.'); return; }
+        if (!form.name.trim() || !form.price) {
+            setFormError('Product name and price are required.');
+            return;
+        }
         setSaving(true);
+
         try {
+            const formData = new FormData();
+            formData.append('name', form.name);
+            formData.append('description', form.description);
+            formData.append('price', form.price);
+            formData.append('category', form.category);
+            formData.append('stock', form.stock);
+            formData.append('sizes', JSON.stringify(selectedSizes));
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
             if (editProduct) {
-                await api.put(`/products/${editProduct.id}`, form);
+                await api.put(`/products/${editProduct.id}`, formData, config);
             } else {
-                await api.post('/products', form);
+                await api.post('/products', formData, config);
             }
             setShowModal(false);
-            fetchData();
+            await fetchData();
         } catch (err) {
             setFormError(err.response?.data?.message || 'Failed to save product.');
         } finally {
@@ -88,10 +132,10 @@ const AdminDashboard = () => {
     };
 
     const handleDeleteProduct = async (id) => {
-        if (!window.confirm('Delete this product?')) return;
+        if (!window.confirm('Are you sure you want to delete this product?')) return;
         try {
             await api.delete(`/products/${id}`);
-            fetchData();
+            await fetchData();
         } catch (err) {
             alert('Failed to delete product.');
         }
@@ -100,7 +144,7 @@ const AdminDashboard = () => {
     const handleUpdateOrderStatus = async (orderId, status) => {
         try {
             await api.put(`/orders/${orderId}/status`, { status });
-            fetchData();
+            await fetchData();
         } catch (err) {
             alert('Failed to update order status.');
         }
@@ -112,6 +156,18 @@ const AdminDashboard = () => {
         pendingOrders: orders.filter(o => o.status === 'pending').length,
         revenue: orders.reduce((sum, o) => sum + Number(o.totalAmount || 0), 0),
     };
+
+    // Show loading spinner while auth resolves
+    if (authLoading) {
+        return (
+            <div className="admin-page" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <p style={{ color: '#888' }}>Loading...</p>
+            </div>
+        );
+    }
+
+    // Don't render anything if not admin (redirect is happening)
+    if (!user || user.role !== 'admin') return null;
 
     return (
         <div className="admin-page">
@@ -125,13 +181,13 @@ const AdminDashboard = () => {
                             className={`sidebar-btn ${activeTab === tab ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab)}
                         >
-                            {tab === 'Products' ? <FaBox /> : <FaShoppingCart />}
+                            {tab === 'Products' ? <PiDressLight size={20} /> : <PiShoppingCartLight size={20} />}
                             {tab}
                         </button>
                     ))}
                 </nav>
                 <button className="sidebar-logout" onClick={() => { logout(); navigate('/login'); }}>
-                    <FaSignOutAlt /> Logout
+                    <PiSignOutLight size={20} /> Logout
                 </button>
             </aside>
 
@@ -139,16 +195,16 @@ const AdminDashboard = () => {
             <main className="admin-main">
                 <header className="admin-header">
                     <h1>{activeTab}</h1>
-                    <span className="admin-welcome">Welcome, Admin</span>
+                    <span className="admin-welcome">Welcome, {user.username}</span>
                 </header>
 
                 {/* Stats Cards */}
                 <div className="stats-grid">
                     {[
-                        { label: 'Total Products', value: stats.totalProducts, icon: '📦' },
-                        { label: 'Total Orders', value: stats.totalOrders, icon: '🛍️' },
-                        { label: 'Pending Orders', value: stats.pendingOrders, icon: '⏳' },
-                        { label: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, icon: '💰' },
+                        { label: 'Total Products', value: stats.totalProducts, icon: <PiDressLight /> },
+                        { label: 'Total Orders', value: stats.totalOrders, icon: <PiPackageLight /> },
+                        { label: 'Pending Orders', value: stats.pendingOrders, icon: <IoDiamondOutline /> },
+                        { label: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, icon: <PiCurrencyDollarLight /> },
                     ].map((s, i) => (
                         <motion.div
                             key={s.label}
@@ -172,7 +228,7 @@ const AdminDashboard = () => {
                         <div className="tab-header">
                             <h2>Product Management</h2>
                             <button className="btn-primary add-btn" onClick={openAddModal}>
-                                <FaPlus /> Add Product
+                                <PiPlusLight size={18} /> Add Product
                             </button>
                         </div>
 
@@ -216,10 +272,10 @@ const AdminDashboard = () => {
                                                 <td>
                                                     <div className="action-btns">
                                                         <button className="action-btn edit" onClick={() => openEditModal(p)} title="Edit">
-                                                            <FaEdit />
+                                                            <PiPencilSimpleLineLight size={18} />
                                                         </button>
                                                         <button className="action-btn delete" onClick={() => handleDeleteProduct(p.id)} title="Delete">
-                                                            <FaTrash />
+                                                            <PiTrashLight size={18} />
                                                         </button>
                                                     </div>
                                                 </td>
@@ -253,10 +309,11 @@ const AdminDashboard = () => {
                                             <th>Order ID</th>
                                             <th>Customer</th>
                                             <th>Phone</th>
+                                            <th>Address</th>
                                             <th>Total</th>
                                             <th>Status</th>
                                             <th>Date</th>
-                                            <th>Actions</th>
+                                            <th>Update</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -265,6 +322,7 @@ const AdminDashboard = () => {
                                                 <td className="order-id">#{o.id.slice(0, 8)}</td>
                                                 <td>{o.customerName}</td>
                                                 <td>{o.customerPhone}</td>
+                                                <td style={{ maxWidth: '150px', fontSize: '0.8rem', color: '#888' }}>{o.shippingAddress}</td>
                                                 <td className="price-cell">${Number(o.totalAmount).toFixed(2)}</td>
                                                 <td>
                                                     <span className={`status-badge status-${o.status}`}>{o.status}</span>
@@ -291,7 +349,7 @@ const AdminDashboard = () => {
                 )}
             </main>
 
-            {/* Product Modal */}
+            {/* Add / Edit Product Modal */}
             <AnimatePresence>
                 {showModal && (
                     <motion.div
@@ -310,41 +368,100 @@ const AdminDashboard = () => {
                         >
                             <div className="modal-header">
                                 <h2>{editProduct ? 'Edit Product' : 'Add New Product'}</h2>
-                                <button className="modal-close" onClick={() => setShowModal(false)}><FaTimes /></button>
+                                <button className="modal-close" onClick={() => setShowModal(false)}><PiXLight size={24} /></button>
                             </div>
 
                             <form onSubmit={handleSaveProduct} className="modal-form">
                                 <div className="modal-grid">
                                     <div className="form-group">
                                         <label>Product Name *</label>
-                                        <input name="name" value={form.name} onChange={handleFormChange} placeholder="e.g. Royal Velvet Dress" />
+                                        <input
+                                            name="name"
+                                            value={form.name}
+                                            onChange={handleFormChange}
+                                            placeholder="e.g. Royal Velvet Dress"
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Category</label>
-                                        <input name="category" value={form.category} onChange={handleFormChange} placeholder="e.g. Dresses" />
+                                        <input
+                                            name="category"
+                                            value={form.category}
+                                            onChange={handleFormChange}
+                                            placeholder="e.g. Dresses"
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label>Price ($) *</label>
-                                        <input name="price" type="number" step="0.01" value={form.price} onChange={handleFormChange} placeholder="0.00" />
+                                        <input
+                                            name="price"
+                                            type="number"
+                                            step="0.01"
+                                            min="0.01"
+                                            value={form.price}
+                                            onChange={handleFormChange}
+                                            placeholder="0.00"
+                                        />
                                     </div>
                                     <div className="form-group">
-                                        <label>Stock</label>
-                                        <input name="stock" type="number" value={form.stock} onChange={handleFormChange} placeholder="0" />
+                                        <label>Stock Quantity</label>
+                                        <input
+                                            name="stock"
+                                            type="number"
+                                            min="0"
+                                            value={form.stock}
+                                            onChange={handleFormChange}
+                                            placeholder="0"
+                                        />
                                     </div>
                                     <div className="form-group full-width">
-                                        <label>Image URL</label>
-                                        <input name="image" value={form.image} onChange={handleFormChange} placeholder="https://..." />
+                                        <label>Sizes Available</label>
+                                        <div className="sizes-grid">
+                                            {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
+                                                <label key={size} className={`size-checkbox ${selectedSizes.includes(size) ? 'selected' : ''}`}>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedSizes.includes(size)}
+                                                        onChange={() => toggleSize(size)}
+                                                        style={{ display: 'none' }}
+                                                    />
+                                                    {size}
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="form-group full-width">
+                                        <label>Product Image (File Upload)</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleFileChange}
+                                            className="file-input"
+                                        />
+                                        {imagePreview && (
+                                            <div className="img-preview-container">
+                                                <img src={imagePreview} alt="Preview" className="img-preview" />
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="form-group full-width">
                                         <label>Description</label>
-                                        <textarea name="description" value={form.description} onChange={handleFormChange} rows={3} placeholder="Product description..." />
+                                        <textarea
+                                            name="description"
+                                            value={form.description}
+                                            onChange={handleFormChange}
+                                            rows={3}
+                                            placeholder="Product description..."
+                                        />
                                     </div>
                                 </div>
 
                                 {formError && <p className="login-error">{formError}</p>}
 
                                 <div className="modal-actions">
-                                    <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
+                                    <button type="button" className="btn-secondary" onClick={() => setShowModal(false)}>
+                                        Cancel
+                                    </button>
                                     <button type="submit" className="btn-primary" disabled={saving}>
                                         {saving ? 'Saving...' : (editProduct ? 'Update Product' : 'Add Product')}
                                     </button>

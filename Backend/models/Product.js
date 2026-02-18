@@ -28,6 +28,10 @@ const Product = sequelize.define('Product', {
     image: {
         type: DataTypes.STRING,
     },
+    sizes: {
+        type: DataTypes.JSON, // Store sizes as a JSON array ["S", "M", "L"]
+        defaultValue: [],
+    },
 });
 
 module.exports = Product;

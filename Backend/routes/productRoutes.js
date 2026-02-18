@@ -8,9 +8,11 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.get('/', getAllProducts);
 router.get('/:id', getProductById);
 
+const upload = require('../middleware/uploadMiddleware');
+
 // Admin-only routes
-router.post('/', authMiddleware, createProduct);
-router.put('/:id', authMiddleware, updateProduct);
+router.post('/', [authMiddleware, upload.single('image')], createProduct);
+router.put('/:id', [authMiddleware, upload.single('image')], updateProduct);
 router.delete('/:id', authMiddleware, deleteProduct);
 
 module.exports = router;

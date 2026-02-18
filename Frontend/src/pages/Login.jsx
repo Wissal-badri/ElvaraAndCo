@@ -18,17 +18,18 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!form.username || !form.password) {
+        if (!form.username.trim() || !form.password.trim()) {
             setError('Please fill in all fields.');
             return;
         }
         setLoading(true);
-        const success = await login(form.username, form.password);
+        const result = await login(form.username.trim(), form.password);
         setLoading(false);
-        if (success) {
+
+        if (result.success) {
             navigate('/admin');
         } else {
-            setError('Invalid username or password.');
+            setError(result.message);
         }
     };
 

@@ -7,14 +7,11 @@ async function seed() {
     try {
         await sequelize.sync({ alter: true });
 
-        // Create admin user
-        const existing = await User.findOne({ where: { username: 'admin' } });
-        if (!existing) {
-            await User.create({ username: 'admin', password: 'elvara2026', role: 'admin' });
-            console.log('✅ Admin user created: admin / elvara2026');
-        } else {
-            console.log('ℹ️  Admin user already exists.');
-        }
+        // Delete existing admin and recreate with new password
+        await User.destroy({ where: { username: 'admin' } });
+        await User.create({ username: 'admin', password: '123456', role: 'admin' });
+        console.log('✅ Admin user reset: username=admin  password=123456');
+
         process.exit(0);
     } catch (err) {
         console.error('❌ Seed failed:', err);

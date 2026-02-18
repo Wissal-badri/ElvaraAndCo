@@ -10,10 +10,11 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Restore session from localStorage on page reload
         const token = localStorage.getItem('token');
         const role = localStorage.getItem('role');
         const username = localStorage.getItem('username');
-        if (token && role) {
+        if (token && role === 'admin') {
             setUser({ role, username });
         }
         setLoading(false);
@@ -23,14 +24,20 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await api.post('/auth/login', { username, password });
             const { token, role, username: uname } = response.data;
+
+            // Only allow admin users to log in via this form
+            if (role !== 'admin') {
+                return { success: false, message: 'Access denied. Admin accounts only.' };
+            }
+
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
             localStorage.setItem('username', uname);
             setUser({ role, username: uname });
-            return true;
+            return { success: true };
         } catch (error) {
-            console.error('Login failed', error);
-            return false;
+            const message = error.response?.data?.message || 'Invalid username or password.';
+            return { success: false, message };
         }
     };
 
