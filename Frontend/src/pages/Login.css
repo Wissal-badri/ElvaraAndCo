@@ -1,0 +1,104 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0A0A0A 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: #111;
+    border: 1px solid var(--color-charcoal-grey);
+    padding: 60px 50px;
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    position: relative;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-royal-gold), transparent);
+}
+
+.login-brand {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--color-royal-gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+}
+
+.login-subtitle {
+    color: #888;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 40px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+}
+
+.form-group input {
+    background: #1a1a1a;
+    border: 1px solid var(--color-charcoal-grey);
+    color: var(--color-ivory-white);
+    padding: 14px 16px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--color-royal-gold);
+}
+
+.form-group input::placeholder {
+    color: #555;
+}
+
+.login-error {
+    color: #e05c5c;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 10px;
+    background: rgba(224, 92, 92, 0.1);
+    border: 1px solid rgba(224, 92, 92, 0.3);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

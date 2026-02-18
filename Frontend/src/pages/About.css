@@ -1,0 +1,124 @@
+.about-page {
+    min-height: 100vh;
+}
+
+.about-hero {
+    position: relative;
+    height: 60vh;
+    background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.about-hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.about-hero-content h1 {
+    font-size: 4rem;
+    color: var(--color-ivory-white);
+    margin-bottom: 15px;
+}
+
+.about-hero-content p {
+    font-size: 1.1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-royal-gold);
+}
+
+.about-section {
+    padding: 100px 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.about-grid h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.about-grid p {
+    color: #aaa;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.about-values {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.value-card {
+    padding: 30px;
+    border: 1px solid var(--color-charcoal-grey);
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.value-icon {
+    color: var(--color-royal-gold);
+    font-size: 1.2rem;
+}
+
+.value-card h3 {
+    font-size: 1rem;
+    color: var(--color-ivory-white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.value-card p {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.about-quote {
+    padding: 80px 0;
+    background: #0d0d0d;
+    text-align: center;
+}
+
+.about-quote blockquote {
+    font-family: var(--font-subheading);
+    font-size: 1.8rem;
+    color: var(--color-royal-gold);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .about-hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .about-quote blockquote {
+        font-size: 1.3rem;
+    }
+}

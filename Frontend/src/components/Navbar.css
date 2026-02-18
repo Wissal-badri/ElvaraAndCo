@@ -1,0 +1,116 @@
+.navbar {
+    background-color: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid var(--color-charcoal-grey);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--color-royal-gold);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--color-ivory-white);
+}
+
+.nav-links a:hover {
+    color: var(--color-royal-gold);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--color-ivory-white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.icon-btn:hover {
+    color: var(--color-royal-gold);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-deep-burgundy);
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-royal-gold);
+    font-size: 1.5rem;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-menu {
+        display: none;
+    }
+
+    .mobile-toggle {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-royal-black);
+        padding: 20px;
+        border-bottom: 1px solid var(--color-royal-gold);
+        gap: 20px;
+        text-align: center;
+    }
+
+    .mobile-menu a {
+        font-family: var(--font-heading);
+        font-size: 1.2rem;
+        color: var(--color-ivory-white);
+    }
+}
