@@ -1,7 +1,5 @@
 require('dotenv').config();
-const sequelize = require('./config/database');
-require('./models/index');
-const { User, Product } = require('./models');
+const { sequelize, User, Product } = require('./models');
 
 async function seed() {
     try {
