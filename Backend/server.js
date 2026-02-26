@@ -14,7 +14,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Security & Parsing Middleware ───────────────────────────────────────────
-app.use(helmet());
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // allow frontend to load images
+}));
 app.use(cors({
     origin: 'http://localhost:5173', // Vite dev server
     credentials: true,

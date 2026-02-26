@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import Prism from '../components/Prism';
 import { useCart } from '../context/CartContext';
-import api from '../services/api';
+import api, { getImageUrl } from '../services/api';
 import './Home.css';
 
 const Home = () => {
@@ -116,7 +116,7 @@ const Home = () => {
                                 >
                                     <Link to={`/product/${product.id}`} className="featured-card-img-wrap">
                                         {product.image
-                                            ? <img src={product.image.startsWith('http') ? product.image : `http://localhost:5000/uploads/${product.image}`} alt={product.name} />
+                                            ? <img src={getImageUrl(product.image)} alt={product.name} />
                                             : <ImagePlaceholder name={product.name} />
                                         }
                                         <div className="featured-card-hover"><span>View Details</span></div>
@@ -150,28 +150,30 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* ── Values Strip ── */}
+            {/* ── Values Ticker ── */}
             <section className="values-strip">
-                <div className="container values-grid">
-                    {[
-                        { icon: '✦', title: 'Premium Quality', desc: 'Finest fabrics, impeccable finish' },
-                        { icon: '✦', title: 'Free Delivery', desc: 'On all orders nationwide' },
-                        { icon: '✦', title: 'Cash on Delivery', desc: 'Safe and convenient payment' },
-                        { icon: '✦', title: 'Exclusive Designs', desc: 'Limited edition collections' },
-                    ].map((v, i) => (
-                        <motion.div
-                            key={v.title}
-                            className="value-item"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1 }}
-                        >
-                            <span className="value-icon">{v.icon}</span>
-                            <h4>{v.title}</h4>
-                            <p>{v.desc}</p>
-                        </motion.div>
-                    ))}
+                <div className="values-ticker-wrap">
+                    <div className="values-ticker">
+                        {[
+                            'Premium Quality',
+                            'Free Delivery',
+                            'Cash on Delivery',
+                            'Exclusive Designs',
+                            'Premium Quality',
+                            'Free Delivery',
+                            'Cash on Delivery',
+                            'Exclusive Designs',
+                            'Premium Quality',
+                            'Free Delivery',
+                            'Cash on Delivery',
+                            'Exclusive Designs',
+                        ].map((label, i) => (
+                            <span key={i} className="values-ticker-item">
+                                <span className="values-ticker-dot">✦</span>
+                                {label}
+                            </span>
+                        ))}
+                    </div>
                 </div>
             </section>
 

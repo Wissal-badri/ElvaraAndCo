@@ -578,19 +578,188 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Hide sidebar — replaced by bottom nav */
     .admin-sidebar {
         display: none;
     }
 
-    .admin-main {
-        padding: 20px;
+    /* Mobile bottom navigation bar */
+    .admin-mobile-nav {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--charcoal);
+        border-top: 1px solid rgba(184, 147, 90, 0.18);
+        z-index: 100;
+        padding: 0;
+        height: 60px;
     }
 
+    .admin-mobile-nav-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-family: var(--font-body);
+        font-size: 0.58rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        cursor: pointer;
+        transition: color var(--t-fast);
+        padding: 8px 0;
+        border-top: 2px solid transparent;
+    }
+
+    .admin-mobile-nav-btn svg {
+        font-size: 1.2rem;
+    }
+
+    .admin-mobile-nav-btn.active {
+        color: var(--gold-light);
+        border-top-color: var(--gold);
+    }
+
+    .admin-mobile-nav-btn:hover {
+        color: var(--cream);
+    }
+
+    .admin-mobile-nav-btn.logout-btn:hover {
+        color: var(--error);
+    }
+
+    /* Main content adjustments */
+    .admin-main {
+        padding: 20px 16px 80px;
+        /* bottom padding for mobile nav */
+    }
+
+    .admin-header {
+        margin-bottom: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .admin-header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Stats */
     .stats-grid {
         grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
+    }
+
+    .stat-icon {
+        font-size: 1.4rem;
+    }
+
+    /* Tab content */
+    .tab-content {
+        padding: 18px 14px;
+    }
+
+    .tab-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    /* Table — hide less critical columns */
+    .admin-table th:nth-child(5),
+    .admin-table td:nth-child(5) {
+        display: none;
+        /* hide Stock on very small */
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+    }
+
+    .table-img {
+        width: 36px;
+        height: 44px;
+    }
+
+    /* Modal */
+    .modal-card {
+        width: 100%;
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 20px 20px 0 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
     }
 
     .modal-grid {
         grid-template-columns: 1fr;
+    }
+
+    .modal-form {
+        padding: 20px 20px 30px;
+    }
+
+    .modal-header {
+        padding: 18px 20px;
+    }
+
+    /* Status select */
+    .status-select {
+        width: 100%;
+        font-size: 0.72rem;
+    }
+
+    /* Orders table - hide some cols */
+    .col-hide-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 14px 10px;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+
+    .stat-label {
+        font-size: 0.62rem;
     }
 }

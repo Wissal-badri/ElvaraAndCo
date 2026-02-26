@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { useCart } from '../context/CartContext';
-import api from '../services/api';
+import api, { getImageUrl } from '../services/api';
 import './Shop.css';
 
 const CATEGORIES = ['All', 'Dresses', 'Accessories', 'Outerwear', 'Tops', 'Bottoms'];
@@ -88,7 +88,7 @@ const Shop = () => {
                                 <Link to={`/product/${product.id}`} className="product-card-link">
                                     <div className="product-card-img">
                                         {product.image ? (
-                                            <img src={product.image.startsWith('http') ? product.image : `http://localhost:5000/uploads/${product.image}`} alt={product.name} />
+                                            <img src={getImageUrl(product.image)} alt={product.name} />
                                         ) : (
                                             <ImagePlaceholder name={product.name} />
                                         )}

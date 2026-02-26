@@ -44,11 +44,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        navigate('/');
+        // Clear state & storage FIRST so the AdminDashboard guard
+        // doesn't intercept and redirect to /login before we reach /
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('username');
         setUser(null);
+        navigate('/');
     };
 
     const value = { user, login, logout, loading };

@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getImageUrl } from '../services/api';
 import './Cart.css';
 
 const Cart = () => {
@@ -46,7 +47,7 @@ const Cart = () => {
                                 >
                                     <div className="cart-item-img">
                                         {item.image ? (
-                                            <img src={item.image.startsWith('http') ? item.image : `http://localhost:5000/uploads/${item.image}`} alt={item.name} />
+                                            <img src={getImageUrl(item.image)} alt={item.name} />
                                         ) : (
                                             <ImagePlaceholder size="sm" name={item.name} />
                                         )}

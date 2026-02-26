@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api, { getImageUrl } from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PiDressLight, PiShoppingCartLight, PiUsersThreeLight, PiCurrencyDollarLight, PiPackageLight, PiSignOutLight, PiPlusLight, PiPencilSimple, PiTrash, PiXLight, PiCheckLight } from "react-icons/pi";
 import { IoDiamondOutline } from "react-icons/io5";
@@ -74,7 +74,9 @@ const AdminDashboard = () => {
         });
         setSelectedSizes(product.sizes || []);
         setImageFile(null);
-        setImagePreview(product.image || '');
+        // Build full URL for preview so existing images show correctly
+        const img = product.image || '';
+        setImagePreview(img.startsWith('http') ? img : img ? `http://localhost:5000/uploads/${img}` : '');
         setFormError('');
         setShowModal(true);
     };
@@ -247,7 +249,7 @@ const AdminDashboard = () => {
                                             <motion.tr key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                                 <td>
                                                     {p.image
-                                                        ? <img src={p.image.startsWith('http') ? p.image : `http://localhost:5000/uploads/${p.image}`} alt={p.name} className="table-img" />
+                                                        ? <img src={getImageUrl(p.image)} alt={p.name} className="table-img" />
                                                         : <div className="table-img-placeholder" />
                                                     }
                                                 </td>
@@ -462,6 +464,27 @@ const AdminDashboard = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            {/* Mobile bottom navigation bar (shown only on mobile via CSS) */}
+            <nav className="admin-mobile-nav" style={{ display: 'none' }}>
+                {TABS.map(tab => (
+                    <button
+                        key={tab}
+                        className={`admin-mobile-nav-btn ${activeTab === tab ? 'active' : ''}`}
+                        onClick={() => setActiveTab(tab)}
+                    >
+                        {tab === 'Products' ? <PiDressLight size={22} /> : <PiShoppingCartLight size={22} />}
+                        {tab}
+                    </button>
+                ))}
+                <button
+                    className="admin-mobile-nav-btn logout-btn"
+                    onClick={() => logout()}
+                >
+                    <PiSignOutLight size={22} />
+                    Logout
+                </button>
+            </nav>
         </div>
     );
 };

@@ -33,7 +33,7 @@ const createProduct = async (req, res) => {
         let imagePath = null;
 
         if (req.file) {
-            imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+            imagePath = req.file.filename; // store filename only; frontend builds full URL
         }
 
         if (!name || !price) return res.status(400).json({ message: 'Name and price are required.' });
@@ -75,7 +75,7 @@ const updateProduct = async (req, res) => {
         let imagePath = product.image;
 
         if (req.file) {
-            imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+            imagePath = req.file.filename; // store filename only; frontend builds full URL
         }
 
         let parsedSizes = product.sizes;

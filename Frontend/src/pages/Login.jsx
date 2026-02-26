@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import './Login.css';
@@ -76,6 +76,10 @@ const Login = () => {
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
+
+                <Link to="/" className="login-back-link">
+                    ← Back to Website
+                </Link>
             </motion.div>
         </div>
     );

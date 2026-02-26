@@ -187,3 +187,33 @@
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* ── Back to website link ── */
+.login-back-link {
+    display: block;
+    margin-top: 24px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(184, 147, 90, 0.45);
+    transition: color var(--t-fast);
+}
+
+.login-back-link:hover {
+    color: var(--gold-light);
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 40px 24px;
+        border-radius: 20px;
+    }
+
+    .login-brand {
+        font-size: 1.6rem;
+        letter-spacing: 0.18em;
+    }
+}
