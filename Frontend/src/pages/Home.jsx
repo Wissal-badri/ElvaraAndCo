@@ -15,7 +15,7 @@ const Home = () => {
 
     useEffect(() => {
         api.get('/products')
-            .then(res => setFeatured(res.data.slice(0, 3)))
+            .then(res => setFeatured(res.data.slice(0, 4)))
             .catch(() => { });
     }, []);
 
@@ -136,7 +136,7 @@ const Home = () => {
                         </div>
                     ) : (
                         <div className="featured-placeholder-grid">
-                            {[1, 2, 3].map(i => (
+                            {[1, 2, 3, 4].map(i => (
                                 <div key={i} className="featured-card">
                                     <ImagePlaceholder />
                                     <div className="featured-card-body">

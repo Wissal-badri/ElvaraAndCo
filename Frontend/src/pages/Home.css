@@ -233,8 +233,8 @@
 .featured-grid,
 .featured-placeholder-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
 }
 
 /* ── Product Card (Featured) ── */
@@ -255,7 +255,7 @@
 .featured-card-img-wrap {
     display: block;
     position: relative;
-    height: 440px;
+    height: 320px;
     overflow: hidden;
 }
 
@@ -273,7 +273,7 @@
 .featured-img-placeholder {
     width: 100%;
     height: 100%;
-    min-height: 440px;
+    min-height: 320px;
 }
 
 .featured-card-hover {
@@ -315,18 +315,18 @@
 
 .featured-card-body h3 {
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: var(--charcoal);
     font-weight: 400;
     letter-spacing: 0.02em;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .featured-price {
     font-family: var(--font-heading);
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--gold);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     font-weight: 500;
 }
 
@@ -484,7 +484,7 @@
 
     .featured-grid,
     .featured-placeholder-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .values-grid {
@@ -496,7 +496,7 @@
 
     .featured-grid,
     .featured-placeholder-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
 
     .values-grid {
