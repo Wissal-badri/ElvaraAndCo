@@ -197,7 +197,7 @@
 
 /* ── Featured Products ── */
 .featured-section {
-    padding: 100px 0 130px;
+    padding: 70px 0 90px;
     background: var(--cream-dark);
 }
 
@@ -205,7 +205,7 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 }
 
 .section-header h2 {
@@ -247,7 +247,7 @@
 .featured-grid,
 .featured-placeholder-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 24px;
 }
 

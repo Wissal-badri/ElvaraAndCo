@@ -1,59 +1,64 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import { createContext, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const navigateRef = useRef(navigate);
 
-    useEffect(() => {
-        // Restore session from localStorage on page reload
-        const token = localStorage.getItem('token');
-        const role = localStorage.getItem('role');
-        const username = localStorage.getItem('username');
-        if (token && role === 'admin') {
-            setUser({ role, username });
-        }
-        setLoading(false);
-    }, []);
+  // Read initial auth state synchronously (avoids setState inside useEffect)
+  const storedToken = localStorage.getItem("token");
+  const storedRole = localStorage.getItem("role");
+  const storedUser = localStorage.getItem("username");
+  const initialUser =
+    storedToken && storedRole === "admin"
+      ? { role: storedRole, username: storedUser }
+      : null;
 
-    const login = async (username, password) => {
-        try {
-            const response = await api.post('/auth/login', { username, password });
-            const { token, role, username: uname } = response.data;
+  const [user, setUser] = useState(initialUser);
 
-            // Only allow admin users to log in via this form
-            if (role !== 'admin') {
-                return { success: false, message: 'Access denied. Admin accounts only.' };
-            }
+  // Keep navigateRef in sync with the latest navigate instance
+  useEffect(() => {
+    navigateRef.current = navigate;
+  }, [navigate]);
 
-            localStorage.setItem('token', token);
-            localStorage.setItem('role', role);
-            localStorage.setItem('username', uname);
-            setUser({ role, username: uname });
-            return { success: true };
-        } catch (error) {
-            const message = error.response?.data?.message || 'Invalid username or password.';
-            return { success: false, message };
-        }
-    };
+  const login = async (username, password) => {
+    try {
+      const response = await api.post("/auth/login", { username, password });
+      const { token, role, username: uname } = response.data;
+      if (role !== "admin") {
+        return {
+          success: false,
+          message: "Access denied. Admin accounts only.",
+        };
+      }
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("username", uname);
+      setUser({ role, username: uname });
+      return { success: true };
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Invalid username or password.";
+      return { success: false, message };
+    }
+  };
 
-    const logout = () => {
-        // Clear state & storage FIRST so the AdminDashboard guard
-        // doesn't intercept and redirect to /login before we reach /
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('username');
-        setUser(null);
-        navigate('/');
-    };
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+    setUser(null);
+    navigateRef.current("/");
+  };
 
-    const value = { user, login, logout, loading };
-
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  // loading is always false because auth state is read synchronously
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading: false }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
