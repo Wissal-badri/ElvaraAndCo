@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import ImagePlaceholder from "../components/ImagePlaceholder";
 import Prism from "../components/Prism";
