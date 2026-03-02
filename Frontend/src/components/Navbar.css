@@ -1,5 +1,5 @@
 /* ───────────────────────────────────────────
-   NAVBAR — Floating pill style
+   NAVBAR — Floating pill style (unified gold)
    ─────────────────────────────────────────── */
 
 .navbar {
@@ -13,7 +13,7 @@
     background: none;
 }
 
-/* The pill */
+/* ── The pill — white with gold text ── */
 .nav-container {
     pointer-events: all;
     display: flex;
@@ -22,49 +22,49 @@
     height: 60px;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px 0 14px;
-    background: rgba(255, 252, 248, 0.55);
-    backdrop-filter: blur(32px) saturate(1.6);
-    -webkit-backdrop-filter: blur(32px) saturate(1.6);
-    border: 1px solid rgba(200, 185, 160, 0.30);
+    padding: 0 24px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border: 1px solid rgba(184, 147, 90, 0.20);
     border-radius: 999px;
     box-shadow:
-        0 12px 40px rgba(60, 50, 40, 0.22),
-        0 4px 12px  rgba(60, 50, 40, 0.14),
-        0 1px 0px   rgba(255, 255, 255, 0.8) inset;
+        0 8px 32px rgba(0, 0, 0, 0.10),
+        0 2px 8px  rgba(0, 0, 0, 0.06);
 }
 
-/* ── Logo pill badge ── */
+/* ── Logo ── */
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(28, 28, 30, 0.82);
-    border: 1px solid rgba(184, 147, 90, 0.35);
-    border-radius: 999px;
-    padding: 8px 18px 8px 14px;
+    gap: 11px;
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--cream);
-    letter-spacing: 0.2em;
-    transition: all var(--t-fast);
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #7A5020;
+    letter-spacing: 0.26em;
+    transition: color var(--t-fast);
     white-space: nowrap;
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .nav-logo:hover {
-    background: rgba(28, 28, 30, 0.95);
-    color: var(--gold-light);
-    border-color: rgba(184, 147, 90, 0.6);
+    color: #B8935A;
 }
 
-
 .nav-logo-dot {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: var(--gold);
+    background: #7A5020;
     flex-shrink: 0;
+    transition: background var(--t-fast);
+}
+
+.nav-logo:hover .nav-logo-dot {
+    background: #B8935A;
 }
 
 /* ── Desktop Nav links ── */
@@ -77,10 +77,10 @@
 .nav-links a {
     font-family: var(--font-body);
     font-size: 0.72rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(50, 40, 30, 0.75);
+    color: var(--gold);
     position: relative;
     padding-bottom: 2px;
     transition: color var(--t-fast);
@@ -115,7 +115,7 @@
 .icon-btn {
     background: none;
     border: none;
-    color: rgba(50, 40, 30, 0.65);
+    color: var(--gold);
     font-size: 1rem;
     cursor: pointer;
     position: relative;
@@ -129,18 +129,18 @@
 }
 
 .icon-btn:hover {
-    background: rgba(184, 147, 90, 0.12);
+    background: rgba(184, 147, 90, 0.15);
     color: var(--gold-light);
 }
 
 .cart-btn {
-    background: rgba(184, 147, 90, 0.08);
-    border: 1px solid rgba(184, 147, 90, 0.2);
+    background: rgba(184, 147, 90, 0.10);
+    border: 1px solid rgba(184, 147, 90, 0.22);
 }
 
 .cart-btn:hover {
-    background: rgba(184, 147, 90, 0.18);
-    border-color: rgba(184, 147, 90, 0.4);
+    background: rgba(184, 147, 90, 0.20);
+    border-color: rgba(184, 147, 90, 0.45);
     color: var(--gold-light);
 }
 
@@ -178,7 +178,7 @@
 }
 
 .mobile-toggle:hover {
-    background: rgba(184, 147, 90, 0.1);
+    background: rgba(184, 147, 90, 0.12);
 }
 
 /* ═══════════════════════════════════════════
@@ -246,7 +246,7 @@
 }
 
 .mobile-overlay-link:hover {
-    color: var(--cream);
+    color: var(--gold-light);
     padding-left: 16px;
 }
 
@@ -322,7 +322,6 @@
 
     .nav-logo {
         font-size: 0.82rem;
-        padding: 6px 14px 6px 10px;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.14em;
     }
 }
