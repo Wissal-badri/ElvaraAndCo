@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { sequelize, User, Product } = require('./models');
+const { sequelize, User, Product, Review } = require('./models');
 
 async function seed() {
     try {
@@ -34,6 +34,30 @@ async function seed() {
         } else {
             console.log('ℹ️ Product "white shirt" already exists.');
         }
+
+        // 3. Seed Reviews for "white shirt"
+        await Review.destroy({ where: { ProductId: whiteShirt.id } });
+        await Review.bulkCreate([
+            {
+                reviewerName: 'Jean Dupont',
+                rating: 5,
+                comment: 'Excellente qualité, la coupe est parfaite !',
+                ProductId: whiteShirt.id
+            },
+            {
+                reviewerName: 'Marie Claire',
+                rating: 4,
+                comment: 'Très belle chemise, confortable mais un peu transparente.',
+                ProductId: whiteShirt.id
+            },
+            {
+                reviewerName: 'Lucas Martin',
+                rating: 3,
+                comment: 'Bon produit mais la taille M est un peu serrée.',
+                ProductId: whiteShirt.id
+            }
+        ]);
+        console.log('✅ Reviews seeded for "white shirt".');
 
         console.log('✨ Seeding completed successfully.');
         process.exit(0);
