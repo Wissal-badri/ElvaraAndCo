@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
+import { motion } from "framer-motion";
 import "./Login.css";
 
 const Login = () => {

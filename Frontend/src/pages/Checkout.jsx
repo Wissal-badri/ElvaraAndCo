@@ -140,12 +140,12 @@ const Checkout = () => {
                         {cart.map((item) => (
                             <div key={item.id} className="checkout-item">
                                 <span>{item.name} × {item.quantity}</span>
-                                <span>{(item.price * item.quantity).toFixed(2)} MAD</span>
+                                <span>{(item.price * item.quantity).toFixed(2)} DHS</span>
                             </div>
                         ))}
                         <div className="checkout-total">
                             <span>Total</span>
-                            <span>{total.toFixed(2)} MAD</span>
+                            <span>{total.toFixed(2)} DHS</span>
                         </div>
                     </motion.div>
                 </div>

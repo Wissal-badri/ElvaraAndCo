@@ -82,7 +82,7 @@ const ProductDetail = () => {
             )}
             <h1 className="product-name">{product.name}</h1>
             <p className="product-price">
-              {Number(product.price).toFixed(2)} MAD
+              {Number(product.price).toFixed(2)} DHS
             </p>
 
             {product.description && (

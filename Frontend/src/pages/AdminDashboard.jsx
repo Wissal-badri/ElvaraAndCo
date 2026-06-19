@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 
 import api, { getImageUrl } from "../services/api";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   PiDressLight,
   PiShoppingCartLight,
@@ -246,7 +246,7 @@ const AdminDashboard = () => {
             },
             {
               label: "Total Revenue",
-              value: `${Number(stats.revenue).toFixed(2)} MAD`,
+              value: `${Number(stats.revenue).toFixed(2)} DHS`,
               icon: <PiCurrencyDollarLight />,
             },
           ].map((s, i) => (
@@ -318,7 +318,7 @@ const AdminDashboard = () => {
                         <td className="product-name-cell">{p.name}</td>
                         <td>{p.category || "—"}</td>
                         <td className="price-cell">
-                          {Number(p.price).toFixed(2)} MAD
+                          {Number(p.price).toFixed(2)} DHS
                         </td>
                         <td>
                           <span
@@ -401,7 +401,7 @@ const AdminDashboard = () => {
                           {o.shippingAddress}
                         </td>
                         <td className="price-cell">
-                          {Number(o.totalAmount).toFixed(2)} MAD
+                          {Number(o.totalAmount).toFixed(2)} DHS
                         </td>
                         <td>
                           <span className={`status-badge status-${o.status}`}>

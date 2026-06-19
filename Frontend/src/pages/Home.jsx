@@ -144,7 +144,7 @@ const Home = () => {
                   <div className="featured-card-body">
                     <h3>{product.name}</h3>
                     <p className="featured-price">
-                      ${Number(product.price).toFixed(2)}
+                      {Number(product.price).toFixed(2)} DHS
                     </p>
                     <button
                       className={`featured-add-btn ${addedId === product.id ? "added" : ""}`}

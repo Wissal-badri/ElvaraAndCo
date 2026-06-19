@@ -55,7 +55,7 @@ const Cart = () => {
                                     <div className="cart-item-info">
                                         <h3>{item.name}</h3>
                                         <p style={{ fontSize: '0.82rem', color: 'var(--muted)', marginBottom: '4px', letterSpacing: '0.04em' }}>Size: {item.size || 'N/A'}</p>
-                                        <p className="item-price">{Number(item.price).toFixed(2)} MAD</p>
+                                        <p className="item-price">{Number(item.price).toFixed(2)} DHS</p>
                                     </div>
                                     <div className="cart-item-controls">
                                         <button onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}>
@@ -66,7 +66,7 @@ const Cart = () => {
                                             <FaPlus />
                                         </button>
                                     </div>
-                                    <p className="item-subtotal">{(item.price * item.quantity).toFixed(2)} MAD</p>
+                                    <p className="item-subtotal">{(item.price * item.quantity).toFixed(2)} DHS</p>
                                     <button className="remove-btn" onClick={() => removeFromCart(item.cartItemId)}>
                                         <FaTrash />
                                     </button>
@@ -80,7 +80,7 @@ const Cart = () => {
                         <h2>Order Summary</h2>
                         <div className="summary-row">
                             <span>Subtotal</span>
-                            <span>{total.toFixed(2)} MAD</span>
+                            <span>{total.toFixed(2)} DHS</span>
                         </div>
                         <div className="summary-row">
                             <span>Shipping</span>
@@ -88,7 +88,7 @@ const Cart = () => {
                         </div>
                         <div className="summary-row total-row">
                             <span>Total</span>
-                            <span>{total.toFixed(2)} MAD</span>
+                            <span>{total.toFixed(2)} DHS</span>
                         </div>
                         <button className="btn-primary checkout-btn" onClick={() => navigate('/checkout')}>
                             Proceed to Checkout
