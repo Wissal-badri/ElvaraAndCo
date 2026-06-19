@@ -1,63 +1,80 @@
-# 👑 ELVARA & CO. — Luxury E-Commerce Website
+# 👑 ELVARA & CO. — Site E-Commerce de Luxe
 
-> A fullstack luxury clothing brand e-commerce platform built with **React.js**, **Express.js**, and **MySQL**.
-
----
-
-## ✨ Overview
-
-**ELVARA & CO.** is a premium fashion e-commerce website designed with a royal, elegant aesthetic — featuring a black, gold, and ivory color palette, smooth animations, and a seamless shopping experience.
+> Une plateforme de commerce électronique fullstack pour marque de vêtements de luxe, construite avec **React.js**, **Express.js** et **MySQL**.
 
 ---
 
-## 🖥️ Tech Stack
+## ✨ Aperçu
 
-| Layer      | Technology                          |
+**ELVARA & CO.** est un site e-commerce de mode premium conçu avec une esthétique royale et élégante — mettant en vedette une palette de couleurs noire, or et ivoire, des animations fluides et une expérience d'achat fluide.
+
+---
+
+## 🌟 Fonctionnalités Principales
+
+### 🛍️ Pour les Clients (Acheteurs)
+- **Parcourir le Catalogue Premium :** Explorez une collection soigneusement sélectionnée de vêtements de luxe avec des images de haute qualité et des descriptions détaillées.
+- **Filtrage et Recherche Avancés :** Trouvez facilement des produits à l'aide de catégories et de filtres.
+- **Panier d'Achat Interactif :** Ajoutez des produits au panier, ajustez les quantités et consultez le calcul des prix en temps réel.
+- **Paiement Fluide :** Passez des commandes rapidement avec un système de Paiement à la Livraison (COD) — aucune carte de crédit requise à l'avance.
+- **Design Réactif :** Profitez d'une expérience d'achat impeccable et magnifiquement animée sur ordinateur, tablette et appareils mobiles.
+
+### 🛡️ Pour les Administrateurs (Propriétaires de Boutique)
+- **Authentification Sécurisée :** Système de connexion sécurisé basé sur JWT pour protéger les données sensibles de la boutique.
+- **Gestion des Produits :** Capacités complètes de CRUD (Créer, Lire, Mettre à jour, Supprimer) pour gérer l'inventaire de la boutique, mettre à jour les prix et télécharger de nouvelles images de produits.
+- **Suivi des Commandes :** Consultez toutes les commandes clients au même endroit et mettez à jour leur statut d'exécution (ex : En attente, Expédiée, Livrée).
+- **Tableau de Bord Analytique :** Aperçu des performances de la boutique et de l'activité récente.
+
+---
+
+## 🖥️ Pile Technologique (Tech Stack)
+
+| Couche     | Technologie                         |
 |------------|-------------------------------------|
 | Frontend   | React.js + Vite, Framer Motion      |
 | Backend    | Node.js + Express.js                |
-| Database   | MySQL + Sequelize ORM               |
+| Base de Données | MySQL + Sequelize ORM          |
 | Auth       | JWT (JSON Web Tokens) + bcryptjs    |
-| Styling    | Vanilla CSS (custom design system)  |
+| Style      | Vanilla CSS (système de design personnalisé) |
 
 ---
 
-## 📁 Project Structure
+## 📁 Structure du Projet
 
 ```
 ELVARA & CO/
 ├── Backend/
-│   ├── config/          # Database connection (Sequelize)
-│   ├── controllers/     # Auth, Product, Order logic
-│   ├── middleware/      # JWT auth middleware
-│   ├── models/          # User, Product, Order, OrderItem
-│   ├── routes/          # API routes
-│   ├── .env             # Environment variables (not committed)
-│   ├── server.js        # Express app entry point
-│   ├── seed.js          # Creates the admin user
-│   └── create_db.js     # Creates the MySQL database
+│   ├── config/          # Connexion à la base de données (Sequelize)
+│   ├── controllers/     # Logique Auth, Produit, Commande
+│   ├── middleware/      # Middleware auth JWT
+│   ├── models/          # Utilisateur, Produit, Commande, Article de Commande
+│   ├── routes/          # Routes API
+│   ├── .env             # Variables d'environnement (non commitées)
+│   ├── server.js        # Point d'entrée de l'application Express
+│   ├── seed.js          # Crée l'utilisateur administrateur
+│   └── create_db.js     # Crée la base de données MySQL
 │
 └── Frontend/
     └── src/
-        ├── components/  # Navbar
+        ├── components/  # Barre de navigation (Navbar)
         ├── context/     # AuthContext, CartContext
-        ├── pages/       # All pages (Home, Shop, Cart, etc.)
-        └── services/    # Axios API instance
+        ├── pages/       # Toutes les pages (Accueil, Boutique, Panier, etc.)
+        └── services/    # Instance d'API Axios
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Commencer
 
-### Prerequisites
+### Prérequis
 
 - [Node.js](https://nodejs.org/) v18+
-- [MySQL](https://www.mysql.com/) running locally (e.g. via XAMPP)
+- [MySQL](https://www.mysql.com/) en cours d'exécution localement (ex : via XAMPP)
 - Git
 
 ---
 
-### 1. Clone the Repository
+### 1. Cloner le Dépôt
 
 ```bash
 git clone https://github.com/Wissal-badri/ElvaraAndCo..git
@@ -66,14 +83,14 @@ cd "ElvaraAndCo."
 
 ---
 
-### 2. Backend Setup
+### 2. Configuration du Backend
 
 ```bash
 cd Backend
 npm install
 ```
 
-Create a `.env` file in the `Backend/` folder:
+Créez un fichier `.env` dans le dossier `Backend/` :
 
 ```env
 PORT=5000
@@ -85,29 +102,29 @@ JWT_SECRET=elvara_secret_key_123
 JWT_EXPIRES_IN=1d
 ```
 
-Create the database:
+Créez la base de données :
 
 ```bash
 node create_db.js
 ```
 
-Seed the admin user:
+Insérez l'utilisateur administrateur :
 
 ```bash
 node seed.js
 ```
 
-Start the backend server:
+Démarrez le serveur backend :
 
 ```bash
 node server.js
 ```
 
-> ✅ Backend runs at `http://localhost:5000`
+> ✅ Le backend s'exécute sur `http://localhost:5000`
 
 ---
 
-### 3. Frontend Setup
+### 3. Configuration du Frontend
 
 ```bash
 cd Frontend
@@ -115,7 +132,7 @@ npm install
 npm run dev
 ```
 
-> ✅ Frontend runs at `http://localhost:5173`
+> ✅ Le frontend s'exécute sur `http://localhost:5173`
 
 ---
 
@@ -123,82 +140,82 @@ npm run dev
 
 | Page             | URL                          | Description                          |
 |------------------|------------------------------|--------------------------------------|
-| 🏠 Home          | `/`                          | Hero, featured products, brand values |
-| 🛍️ Shop          | `/shop`                      | Full product catalog with filters    |
-| 👗 Product Detail | `/product/:id`              | Product info + Add to Cart           |
-| 🛒 Cart          | `/cart`                      | Cart with quantity controls          |
-| 📦 Checkout      | `/checkout`                  | Order form (Cash on Delivery)        |
-| ℹ️ About         | `/about`                     | Brand story and values               |
-| 🔐 Admin Login   | `/login`                     | Admin authentication                 |
-| ⚙️ Admin Dashboard | `/admin`                   | Product CRUD + Order management      |
+| 🏠 Accueil       | `/`                          | Héros, produits phares, valeurs de la marque |
+| 🛍️ Boutique      | `/shop`                      | Catalogue complet des produits avec filtres |
+| 👗 Détails du Produit | `/product/:id`        | Infos produit + Ajouter au panier    |
+| 🛒 Panier        | `/cart`                      | Panier avec contrôles de quantité    |
+| 📦 Paiement      | `/checkout`                  | Formulaire de commande (Paiement à la livraison) |
+| ℹ️ À Propos      | `/about`                     | Histoire et valeurs de la marque     |
+| 🔐 Connexion Admin | `/login`                   | Authentification administrateur      |
+| ⚙️ Tableau de Bord Admin | `/admin`             | CRUD Produit + Gestion des commandes |
 
 ---
 
-## 🔐 Admin Access
+## 🔐 Accès Administrateur
 
-| Field    | Value        |
+| Champ    | Valeur       |
 |----------|--------------|
-| Username | `admin`      |
-| Password | `elvara2026` |
+| Nom d'utilisateur | `admin`      |
+| Mot de passe      | `elvara2026` |
 
-> ⚠️ Change the password after first login in production.
-
----
-
-## 🔌 API Endpoints
-
-### Auth
-| Method | Endpoint            | Access  | Description        |
-|--------|---------------------|---------|--------------------|
-| POST   | `/api/auth/register`| Public  | Register admin     |
-| POST   | `/api/auth/login`   | Public  | Login & get token  |
-
-### Products
-| Method | Endpoint              | Access  | Description        |
-|--------|-----------------------|---------|--------------------|
-| GET    | `/api/products`       | Public  | Get all products   |
-| GET    | `/api/products/:id`   | Public  | Get single product |
-| POST   | `/api/products`       | Admin   | Create product     |
-| PUT    | `/api/products/:id`   | Admin   | Update product     |
-| DELETE | `/api/products/:id`   | Admin   | Delete product     |
-
-### Orders
-| Method | Endpoint                    | Access  | Description         |
-|--------|-----------------------------|---------|---------------------|
-| POST   | `/api/orders`               | Public  | Place an order      |
-| GET    | `/api/orders`               | Admin   | Get all orders      |
-| PUT    | `/api/orders/:id/status`    | Admin   | Update order status |
+> ⚠️ Changez le mot de passe après la première connexion en production.
 
 ---
 
-## 🛡️ Security Features
+## 🔌 Points de Terminaison API (Endpoints)
 
-- ✅ Passwords hashed with **bcryptjs**
-- ✅ **JWT** authentication for admin routes
-- ✅ **Helmet.js** for secure HTTP headers
-- ✅ **Rate limiting** on API and order endpoints
-- ✅ **CORS** restricted to frontend origin
-- ✅ Input validation on all forms
-- ✅ SQL injection protection via **Sequelize ORM**
-- ✅ Sensitive data stored in `.env` (never committed)
+### Authentification (Auth)
+| Méthode | Endpoint            | Accès   | Description        |
+|---------|---------------------|---------|--------------------|
+| POST    | `/api/auth/register`| Public  | Enregistrer un admin |
+| POST    | `/api/auth/login`   | Public  | Connexion & obtention de jeton |
+
+### Produits
+| Méthode | Endpoint              | Accès   | Description        |
+|---------|-----------------------|---------|--------------------|
+| GET     | `/api/products`       | Public  | Obtenir tous les produits |
+| GET     | `/api/products/:id`   | Public  | Obtenir un seul produit |
+| POST    | `/api/products`       | Admin   | Créer un produit     |
+| PUT     | `/api/products/:id`   | Admin   | Mettre à jour un produit |
+| DELETE  | `/api/products/:id`   | Admin   | Supprimer un produit     |
+
+### Commandes
+| Méthode | Endpoint                    | Accès   | Description         |
+|---------|-----------------------------|---------|---------------------|
+| POST    | `/api/orders`               | Public  | Passer une commande |
+| GET     | `/api/orders`               | Admin   | Obtenir toutes les commandes |
+| PUT     | `/api/orders/:id/status`    | Admin   | Mettre à jour le statut de commande |
 
 ---
 
-## 🎨 Brand Design System
+## 🛡️ Fonctionnalités de Sécurité
 
-| Token              | Value     |
+- ✅ Mots de passe hachés avec **bcryptjs**
+- ✅ Authentification **JWT** pour les routes admin
+- ✅ **Helmet.js** pour des en-têtes HTTP sécurisés
+- ✅ **Limitation de débit (Rate limiting)** sur l'API et les points de terminaison de commande
+- ✅ **CORS** restreint à l'origine du frontend
+- ✅ Validation des entrées sur tous les formulaires
+- ✅ Protection contre l'injection SQL via **Sequelize ORM**
+- ✅ Données sensibles stockées dans `.env` (jamais commitées)
+
+---
+
+## 🎨 Système de Design de Marque
+
+| Jeton (Token)      | Valeur    |
 |--------------------|-----------|
-| Royal Black        | `#0A0A0A` |
-| Royal Gold         | `#C9A646` |
-| Champagne Gold     | `#E5C97A` |
-| Deep Burgundy      | `#5A0F1C` |
-| Ivory White        | `#F8F5F0` |
-| Heading Font       | Playfair Display |
-| Body Font          | Montserrat |
+| Noir Royal         | `#0A0A0A` |
+| Or Royal           | `#C9A646` |
+| Or Champagne       | `#E5C97A` |
+| Bordeaux Profond   | `#5A0F1C` |
+| Blanc Ivoire       | `#F8F5F0` |
+| Police de Titre    | Playfair Display |
+| Police de Corps    | Montserrat |
 
 ---
 
-## 📄 License
+## 📄 Licence
 
-This project is private and proprietary to **ELVARA & CO.**  
-© 2026 ELVARA & CO. All Rights Reserved.
+Ce projet est privé et exclusif à **ELVARA & CO.**  
+© 2026 ELVARA & CO. Tous droits réservés.
